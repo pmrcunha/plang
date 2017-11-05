@@ -1,0 +1,6 @@
+{
+  "extends": "pmrcunha/base",
+  "env": {
+    "node": true
+  }
+}
