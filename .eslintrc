@@ -5,6 +5,7 @@
   },
   "globals": {
     "XMLHttpRequest": true,
-    "document": true
+    "document": true,
+    "navigator": true
     }
 }

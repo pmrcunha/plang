@@ -1,6 +1,18 @@
 import React from 'react';
 
-const plang = {};
+let supportedLocales = [
+  'en-US',
+];
+
+const setSupportedLocales = (locales) => {
+  supportedLocales = locales;
+};
+
+const setLocale = (locale) => {
+  let localeToSet = locale || navigator.language || 'en-US';
+  localeToSet = supportedLocales.indexOf(localeToSet) >= 0 ? localeToSet : 'en-US';
+  document.cookie = `locale=${localeToSet}`;
+};
 
 const getLocale = () => {
   // eslint-disable-next-line
@@ -51,7 +63,9 @@ const withTranslations = (WrappedComponent, _locale) => class extends React.Comp
   }
 };
 
-export default Object.assign(plang, {
+export default {
+  setSupportedLocales,
+  setLocale,
   getLocale,
   withTranslations,
-});
+};
