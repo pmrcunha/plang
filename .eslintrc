@@ -4,6 +4,7 @@
     "node": true
   },
   "globals": {
-    "XMLHttpRequest": true
+    "XMLHttpRequest": true,
+    "document": true
     }
 }
