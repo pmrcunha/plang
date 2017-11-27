@@ -31,5 +31,8 @@
     "eslint": "^4.10.0",
     "eslint-config-pmrcunha": "^0.2.8",
     "jest": "^21.2.1"
+  },
+  "dependencies": {
+    "react": "^16.0.0"
   }
 }

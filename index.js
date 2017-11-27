@@ -1,16 +1,30 @@
-const plang = {};
+import React from 'react';
+
+let supportedLocales = [
+  'en-US',
+];
+
+const setSupportedLocales = (locales) => {
+  supportedLocales = locales;
+};
+
+const setLocale = (locale) => {
+  let localeToSet = locale || navigator.language || 'en-US';
+  localeToSet = supportedLocales.indexOf(localeToSet) >= 0 ? localeToSet : 'en-US';
+  document.cookie = `locale=${localeToSet}`;
+};
 
 const getLocale = () => {
-  const locale = 'en-US';
+  // eslint-disable-next-line
+  const locale = document.cookie.replace(/(?:(?:^|.*;\s*)locale\s*\=\s*([^;]*).*$)|^.*$/, '$1');
   return locale;
 };
 
 const getTranslations = ({
   locale = 'en-US',
-  pathToTranslations = '/localization',
+  pathToTranslations = 'localization',
 }) => new Promise((resolve, reject) => {
   const path = `${pathToTranslations}/${locale}/strings.json`;
-  console.log(path);
   const ajax = new XMLHttpRequest();
   ajax.open('GET', path, true);
   ajax.responseType = 'json';
@@ -23,16 +37,35 @@ const getTranslations = ({
   ajax.send();
 });
 
-const setTranslations = (translations) => {
-  console.log(translations);
-  plang.translations = translations;
+const withTranslations = (WrappedComponent, _locale) => class extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      translations: {},
+    };
+    this.getTrans();
+  }
+
+  getTrans() {
+    getTranslations({ locale: _locale }).then((t) => {
+      this.setState({
+        translations: t,
+      });
+    });
+  }
+
+  render() {
+    return React.createElement(
+      WrappedComponent,
+      Object.assign({}, this.props, { t: this.state.translations }),
+      null,
+    );
+  }
 };
 
-const t = key => plang.translations[key]; // eslint-disable-line no-undef
-
-export default Object.assign(plang, {
+export default {
+  setSupportedLocales,
+  setLocale,
   getLocale,
-  getTranslations,
-  setTranslations,
-  t,
-});
+  withTranslations,
+};
