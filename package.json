@@ -1,12 +1,16 @@
 {
   "name": "plang",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A minimal, JS only localization library",
   "main": "dist/index.js",
   "scripts": {
     "test": "jest",
-    "build": "babel index.js --out-file dist/index.js"
+    "build": "babel index.js --out-file dist/index.js",
+    "prepublish": "yarn build"
   },
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pmrcunha/plang.git"
