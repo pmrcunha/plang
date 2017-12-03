@@ -63,7 +63,6 @@ jobs:
             yarn version --new-version patch
             git add package.json
             git commit -m 'bump version'
-            git push
             git push --tags
             npm publish
 
