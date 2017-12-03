@@ -50,7 +50,7 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-          
+
       - run:
           name: Publish to NPM
           command: |
@@ -62,7 +62,8 @@ jobs:
             yarn build
             yarn version --new-version patch
             git push --tags
-            yarn publish
+            lastTag=$(git describe --tags $(git rev-list --tags --max-count=1))
+            yarn publish --new-version $lastTag
 
 workflows:
   version: 2
