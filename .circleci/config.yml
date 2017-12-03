@@ -27,7 +27,7 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      - run: yarn lint
+      # - run: yarn lint
       - run: yarn test
   deploy:
     docker:
@@ -35,28 +35,32 @@ jobs:
 
     working_directory: ~/repo
 
+    filters:
+      branches:
+        only: master
+
     steps:
       - run:
-        name: Publish to NPM
-        command: |
-          git config --global -l
-          git config --global user.email pc@paulocunha.me
-          git config --global user.name pmrcunha
-          git remote --v
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
-          yarn build
-          yarn version --new-version patch
-          git push --tags
-          yarn publish
+          name: Publish to NPM
+          command: |
+            git config --global -l
+            git config --global user.email pc@paulocunha.me
+            git config --global user.name pmrcunha
+            git remote --v
+            echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+            yarn build
+            yarn version --new-version patch
+            git push --tags
+            yarn publish
 
-workflows:
-  version: 2
-  build-deploy:
-    jobs:
-      - build
-      - deploy:
-        requires:
-          - build
-        filters:
-          branches:
-            only: master
+# workflows:
+#   version: 2
+#   build-deploy:
+#     jobs:
+#       - build
+#       - deploy:
+#         requires:
+#           - build
+#         filters:
+#           branches:
+#             only: master
