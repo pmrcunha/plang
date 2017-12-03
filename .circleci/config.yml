@@ -53,6 +53,14 @@ jobs:
 
       - run: yarn build
       - run:
+          name: Authenticate
+          command: |
+            echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+            git config --global -l
+            git config --global user.email pc@paulocunha.me
+            git config --global user.name pmrcunha
+            git remote --v
+      - run:
           name: Bump version
           command: |
             yarn config set version-tag-prefix ""
@@ -61,18 +69,12 @@ jobs:
       - run:
           name: Push new version number
           command: |
-            git config --global -l
-            git config --global user.email pc@paulocunha.me
-            git config --global user.name pmrcunha
-            git remote --v
             git add package.json
             git commit -m 'bump version'
             git push --follow-tags
       - run:
           name: Publish to NPM
-          command: |
-            echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
-            npm publish
+          command: npm publish
 
 workflows:
   version: 2
