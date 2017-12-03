@@ -64,7 +64,7 @@ jobs:
           name: Bump version
           command: |
             yarn config set version-tag-prefix ""
-            yarn config set version-git-message "Bumped version to v%s"
+            yarn config set version-git-message "Bumped version to v%s [skip ci]"
             yarn version --new-version patch
       - run:
           name: Push new version number
