@@ -39,10 +39,6 @@ jobs:
       - run:
           name: Publish to NPM
           command: |
-            git config --global -l
-            git config --global user.email pc@paulocunha.me
-            git config --global user.name pmrcunha
-            git remote --v
             echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
             yarn build
             yarn version --new-version patch
