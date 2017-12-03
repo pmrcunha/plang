@@ -61,9 +61,11 @@ jobs:
             echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
             yarn build
             yarn version --new-version patch
+            git add package.json
+            git commit -m 'bump version'
+            git push
             git push --tags
-            lastTag=$(git describe --tags $(git rev-list --tags --max-count=1))
-            yarn publish --new-version $lastTag
+            npm publish
 
 workflows:
   version: 2
