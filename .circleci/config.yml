@@ -51,19 +51,27 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
+      - run: yarn build
       - run:
-          name: Publish to NPM
+          name: Bump version
+          command: |
+            yarn config set version-tag-prefix ""
+            yarn config set version-git-message "Bumped version to v%s"
+            yarn version --new-version patch
+      - run:
+          name: Push new version number
           command: |
             git config --global -l
             git config --global user.email pc@paulocunha.me
             git config --global user.name pmrcunha
             git remote --v
-            echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
-            yarn build
-            yarn version --new-version patch
             git add package.json
             git commit -m 'bump version'
-            git push --tags
+            git push --follow-tags
+      - run:
+          name: Publish to NPM
+          command: |
+            echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
             npm publish
 
 workflows:
