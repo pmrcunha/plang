@@ -68,11 +68,7 @@ jobs:
             yarn version --new-version patch
       - run:
           name: Push new version number
-          command: |
-            git checkout -b bump-version
-            git add package.json
-            git commit -m 'bump version'
-            git push --follow-tags origin bump-version
+          command: git push --follow-tags
       - run:
           name: Publish to NPM
           command: npm publish
