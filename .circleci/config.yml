@@ -69,9 +69,10 @@ jobs:
       - run:
           name: Push new version number
           command: |
+            git checkout -b bump-version
             git add package.json
             git commit -m 'bump version'
-            git push --follow-tags
+            git push --follow-tags origin bump-version
       - run:
           name: Publish to NPM
           command: npm publish
