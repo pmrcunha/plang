@@ -5,7 +5,9 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "jest",
-    "build": "babel index.js --out-file dist/index.js"
+    "clear": "rm -rf dist && mkdir dist",
+    "build": "yarn clear && babel index.js --out-file dist/index.js",
+    "bump-patch": "yarn version --new-version patch --no-git-tag-version"
   },
   "repository": {
     "type": "git",
